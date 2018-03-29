@@ -67,9 +67,9 @@
                     </div>
                 </div>
             </div>
-            <div th:each="article : ${articles}">
-                <h3 th:text="${article.title}"/>
-                <p th:text="${article.content}"/>
+            <div th:each="user : ${users}">
+                <h3 th:text="${user.personaname}"/>
+                <p th:text="${user.avatarsmall}"/>
                 <hr/>
             </div>
         </div>

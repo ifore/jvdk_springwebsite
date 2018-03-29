@@ -15,6 +15,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         config
                 .authorizeRequests()
                 .antMatchers("./").permitAll()
+                .antMatchers("/h2-console/*").permitAll()
+                .antMatchers("/h2*").permitAll()
+                .antMatchers("/h2-console/login.do?jsessionid=f82738d4e843af89734dab7ca9e24b43").permitAll()
                 .antMatchers("/editor").hasRole("EDITOR")
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/editor").permitAll()

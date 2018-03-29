@@ -23,6 +23,7 @@ public class ArticleService {
     // Додавання статей до БД
     public void save(Article article) {
         repository.save(article);
+
     }
 
     // Метод, який повертає колекцію всіх посортованих по даті статей

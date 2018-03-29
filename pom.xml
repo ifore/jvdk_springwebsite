@@ -63,7 +63,12 @@
             <artifactId>openid4java</artifactId>
             <version>0.9.8</version>
         </dependency>
-
+        <!--json парсер-->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
     </dependencies>
 
     <build>
