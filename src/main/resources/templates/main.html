@@ -67,13 +67,50 @@
                     </div>
                 </div>
             </div>
-
             <div th:each="article : ${articles}">
                 <h3 th:text="${article.title}"/>
                 <p th:text="${article.content}"/>
                 <hr/>
             </div>
         </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-md-3">
+        <p class="center">Better design</p>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ivan</td>
+                <td>Mazuryk</td>
+                <td>IvanGuy</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Vitalii</td>
+                <td>Andrusiak</td>
+                <td>Vertelek</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Oleksadnr</td>
+                <td>Nechaiev</td>
+                <td>Floopy</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        <p class="center">Better developers</p>
     </div>
 </div>
 </body>

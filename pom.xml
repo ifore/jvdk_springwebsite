@@ -51,6 +51,19 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <!--OpenID-->
+        <dependency>
+            <groupId>org.expressme</groupId>
+            <artifactId>JOpenId</artifactId>
+            <version>1.08</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openid4java</groupId>
+            <artifactId>openid4java</artifactId>
+            <version>0.9.8</version>
+        </dependency>
+
     </dependencies>
 
     <build>
