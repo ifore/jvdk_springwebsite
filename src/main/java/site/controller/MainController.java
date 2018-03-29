@@ -1,8 +1,6 @@
 package site.controller;
 
 
-import org.apache.catalina.connector.Request;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.springframework.web.servlet.ModelAndView;
-import site.configuration.SteamOpenID;
+import site.service.SteamOpenID;
 import site.model.Article;
 import site.service.ArticleService;
 
@@ -49,9 +47,10 @@ public class MainController {
         service.save(article);
         return "redirect:../";
     }
-
+    String thaturl = "";
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView method() {
+        thaturl = so.login("http://localhost:8080/auth");
         return new ModelAndView("redirect:" + so.login("http://localhost:8080/auth"));
 
     }
@@ -59,14 +58,12 @@ public class MainController {
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public ModelAndView dosomething(HttpServletRequest request, HttpServletResponse response)  throws IOException {
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("redirect:../");
-        String user = so.verify(request.getRequestURI(), request.getParameterMap());
+
+        String user = so.verify(thaturl, request.getParameterMap());
         if(user == null) {
-            return new ModelAndView("redirect:" + so.login("http://localhost:8080"));
+            return new ModelAndView("redirect:" + "http://localhost:8080");
         }
-        request.getSession(true).setAttribute("steamid", user);
-        System.out.println("USER information" + user);
-        return new ModelAndView("redirect:" + so.login("http://localhost:8080"));
+
+        return new ModelAndView("redirect:" + "http://localhost:8080");
     }
 }
