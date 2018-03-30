@@ -62,8 +62,7 @@ public class UserSteamService {
             repository.findById(id64s).get().setAvatarsmall(useravatarsmall);
             repository.findById(id64s).get().setAvatarmedium(useravatarmedium);
             repository.findById(id64s).get().setAvatarbig(useravatarfull);
-            System.out.println("FIND BY: " + repository.findById(id64s).get().getPersonaname());
-
+            repository.save(repository.findById(id64s).get());
         } else{
             UserSteam user = new UserSteam(id64s);
             user.setPersonaname(username);
