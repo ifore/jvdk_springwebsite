@@ -57,12 +57,13 @@ public class UserSteamService {
             useravatarmedium = jsonPlayers.getJSONObject(i).getString("avatarmedium");
             useravatarfull = jsonPlayers.getJSONObject(i).getString("avatarfull");
         }
-        System.out.println("Username: " + username + " _Avatarsmal" + useravatarsmall);
         if (repository.existsById(id64s)){
             repository.findById(id64s).get().setPersonaname(username);
             repository.findById(id64s).get().setAvatarsmall(useravatarsmall);
             repository.findById(id64s).get().setAvatarmedium(useravatarmedium);
             repository.findById(id64s).get().setAvatarbig(useravatarfull);
+            System.out.println("FIND BY: " + repository.findById(id64s).get().getPersonaname());
+
         } else{
             UserSteam user = new UserSteam(id64s);
             user.setPersonaname(username);
@@ -79,7 +80,6 @@ public class UserSteamService {
                 .stream(
                         Spliterators.spliteratorUnknownSize(repository.findAll().iterator(), Spliterator.NONNULL),
                         false)
-                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
     }
 }

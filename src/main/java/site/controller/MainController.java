@@ -70,13 +70,7 @@ public class MainController {
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
     public ModelAndView dosomething(HttpServletRequest request, HttpServletResponse response)  throws IOException {
 
-        System.out.println("HYi");
-        Map<String, String[]> map = request.getParameterMap();
-        for (Map.Entry<String,String[]> entry : map.entrySet()) {
-            System.out.println(entry.getKey()+" "+ Arrays.asList(entry.getValue()));
-        }
         String urll = "http://localhost:8080/"+ URLEncoder.encode("auth", "UTF-8");
-        System.out.println("url huirel "+request.getRequestURL().toString());
         String user = so.verify(urll, request.getParameterMap());
         System.out.println("user +++ " + user);
         userservice.saveUser(user);
