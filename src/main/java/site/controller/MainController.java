@@ -41,9 +41,12 @@ public class MainController {
     }*/
 
     @RequestMapping
-    public String mainPage(Model model) {
+    public String mainPage(Model model, HttpServletRequest request) throws  IOException{
         model.addAttribute("users", userservice.getAll());
-        return "main";
+        if(request.isRequestedSessionIdValid())
+            return "mainv2";
+        else
+            return "main";
     }
     //Добавляє в модель новий обєкт Article
     //і відображає editor.html
@@ -59,16 +62,15 @@ public class MainController {
         service.save(article);
         return "redirect:../";
     }
-    String thaturl = "";
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView method() {
-        thaturl = so.login("http://localhost:8080");
         return new ModelAndView("redirect:" + so.login("http://localhost:8080/auth"));
 
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public ModelAndView dosomething(HttpServletRequest request, HttpServletResponse response)  throws IOException {
+    public ModelAndView authentication(HttpServletRequest request, HttpServletResponse response)  throws IOException {
 
         String urll = "http://localhost:8080/"+ URLEncoder.encode("auth", "UTF-8");
         String user = so.verify(urll, request.getParameterMap());
@@ -78,6 +80,13 @@ public class MainController {
             return new ModelAndView("redirect:" + "http://localhost:8080");
         }
         System.out.println("User 64id :" + user);
+        request.getSession().setAttribute("steamid", user);
         return new ModelAndView("redirect:" + "http://localhost:8080");
+    }
+
+    @RequestMapping(value = "/logout")
+    public ModelAndView loggingout(HttpServletRequest request, HttpServletResponse response)  throws IOException {
+        request.getSession().removeAttribute("steamid");
+        return new ModelAndView("redirect:" + so.login("http://localhost:8080"));
     }
 }
