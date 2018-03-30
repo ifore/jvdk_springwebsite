@@ -27,8 +27,7 @@ public class UserSteamService {
     private UserSteamRepository repository;
 
     public void saveUser(String id64){
-        String id64s = id64;
-        System.out.println("id64s ");
+        long id64s = Long.parseLong(id64);
         String jsondata = "";
         String username = "";
         String useravatarsmall = "";
@@ -48,7 +47,6 @@ public class UserSteamService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("json data " + jsondata);
         JSONObject jsonObject = new JSONObject(jsondata);
         JSONObject jsonResponse = jsonObject.getJSONObject("response");
         JSONArray jsonPlayers = jsonResponse.getJSONArray("players");
@@ -59,7 +57,7 @@ public class UserSteamService {
             useravatarmedium = jsonPlayers.getJSONObject(i).getString("avatarmedium");
             useravatarfull = jsonPlayers.getJSONObject(i).getString("avatarfull");
         }
-
+        System.out.println("Username: " + username + " _Avatarsmal" + useravatarsmall);
         if (repository.existsById(id64s)){
             repository.findById(id64s).get().setPersonaname(username);
             repository.findById(id64s).get().setAvatarsmall(useravatarsmall);
@@ -71,7 +69,7 @@ public class UserSteamService {
             user.setAvatarsmall(useravatarsmall);
             user.setAvatarmedium(useravatarmedium);
             user.setAvatarbig(useravatarfull);
-
+            repository.save(user);
         }
     }
 

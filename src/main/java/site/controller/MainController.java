@@ -42,7 +42,7 @@ public class MainController {
 
     @RequestMapping
     public String mainPage(Model model) {
-        model.addAttribute("users", service.getAll());
+        model.addAttribute("users", userservice.getAll());
         return "main";
     }
     //Добавляє в модель новий обєкт Article

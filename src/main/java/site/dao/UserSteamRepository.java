@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import site.model.UserSteam;
 
 @Repository
-public interface UserSteamRepository extends CrudRepository<UserSteam, String> {
+public interface UserSteamRepository extends CrudRepository<UserSteam, Long> {
 
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UserSteam implements Serializable, Comparable<UserSteam>{
 
     @Id
-    private String steamid;
+    private Long steamid;
     @Column
     private String personaname;
     @Column
@@ -24,9 +24,13 @@ public class UserSteam implements Serializable, Comparable<UserSteam>{
 
 
 
-    public UserSteam(String id64 ) {
+    public UserSteam(long id64 ) {
         this.creationTimestamp = System.currentTimeMillis();
         this.steamid = id64;
+    }
+
+    public UserSteam() {
+        this.creationTimestamp = System.currentTimeMillis();
     }
 
     @Override
@@ -34,14 +38,6 @@ public class UserSteam implements Serializable, Comparable<UserSteam>{
         return Long.compare(this.creationTimestamp, that.creationTimestamp);
     }
 
-
-    public String getSteamid() {
-        return steamid;
-    }
-
-    public void setSteamid(String steamid) {
-        this.steamid = steamid;
-    }
 
     public String getPersonaname() {
         return personaname;
