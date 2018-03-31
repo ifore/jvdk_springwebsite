@@ -92,14 +92,14 @@ public class SteamOpenID {
      * @return Returns the Steam Community ID as a string.
      */
     public String verify(String receivingUrl, Map responseMap) {
-        System.out.println("verify sfsaf");
         if (this.discovered == null) {
-            System.out.println("discover pidor");
             return null;
         }
-
+        Map<String,String[]> ss = responseMap;
+        for(Map.Entry<String,String[]> entry : ss.entrySet()) {
+            System.out.println(entry.getKey()+ " " + entry.getValue());
+        }
         ParameterList responseList = new ParameterList(responseMap);
-        System.out.println(responseList.getParameters());
         try {
             VerificationResult verification = manager.verify(receivingUrl, responseList, this.discovered);
             Identifier verifiedId = verification.getVerifiedId();
@@ -112,7 +112,6 @@ public class SteamOpenID {
                 }
             }
         } catch (MessageException | DiscoveryException | AssociationException e) {
-            System.out.println("projebali");
             e.printStackTrace();
         }
         return null;

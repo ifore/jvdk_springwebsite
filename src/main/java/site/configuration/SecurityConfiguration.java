@@ -14,17 +14,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity config) throws Exception {
         config
                 .authorizeRequests().antMatchers("/").permitAll().and()
-                .authorizeRequests().antMatchers("/h2-console/**").permitAll();
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
                 /*.antMatchers("/h2*").permitAll()
                 .antMatchers("/h2-console/login.do?jsessionid=f82738d4e843af89734dab7ca9e24b43").permitAll()
                 .antMatchers("/editor").hasRole("EDITOR")
+                */
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/editor").permitAll()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
-                .logout().logoutUrl("/logout").permitAll()*/;
+                .logout().logoutUrl("/logout").permitAll();
 
-                config.csrf().disable();
-                config.headers().frameOptions().disable();
+        /*config.csrf().disable();
+        config.headers().frameOptions().disable();*/
     }
     // Тестова реєстрація корситувача (без Passwordencoder )
     /*@Autowired

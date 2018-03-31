@@ -2,6 +2,9 @@ package site.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +17,7 @@ import site.model.Article;
 import site.service.ArticleService;
 import site.service.UserSteamService;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,6 +36,14 @@ public class MainController {
     private UserSteamService userservice ;
     private SteamOpenID so = new SteamOpenID();
 
+    private String getFullUrl(HttpServletRequest request, String path) {
+
+        StringBuilder builder = new StringBuilder("localhost:8080");
+        System.out.println(builder);
+        builder.insert(0, "http://");
+        builder.append(path);
+        return builder.toString();
+    }
     //Передає дані (дані: service.getAll для поля articles) шаблонізатору (всі статті з БД)
     //і відображає main.html користовачу
     /*@RequestMapping
@@ -43,7 +55,8 @@ public class MainController {
     @RequestMapping
     public String mainPage(Model model, HttpServletRequest request) throws  IOException{
         model.addAttribute("users", userservice.getAll());
-        if(request.isRequestedSessionIdValid())
+        String id = null;
+        if(null != request.getSession(true).getAttribute("steamid"))
             return "mainv2";
         else
             return "main";
@@ -64,29 +77,31 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView method() {
-        return new ModelAndView("redirect:" + so.login("http://localhost:8080/auth"));
-
+    public String method(HttpServletRequest request,HttpServletResponse response)  throws IOException  {
+        response.sendRedirect(so.login(getFullUrl(request, "/auth")));
+        return null;
     }
 
     @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public ModelAndView authentication(HttpServletRequest request, HttpServletResponse response)  throws IOException {
+    public String authentication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String urll = "http://localhost:8080/"+ URLEncoder.encode("auth", "UTF-8");
-        String user = so.verify(urll, request.getParameterMap());
-        System.out.println("user +++ " + user);
+        String user = so.verify(request.getRequestURL().toString(), request.getParameterMap());
+        String fullUrl = getFullUrl(request, "/");
         userservice.saveUser(user);
         if(user == null) {
-            return new ModelAndView("redirect:" + "http://localhost:8080");
+            response.sendRedirect(fullUrl);
         }
-        System.out.println("User 64id :" + user);
-        request.getSession().setAttribute("steamid", user);
-        return new ModelAndView("redirect:" + "http://localhost:8080");
+        request.getSession(true).setAttribute("steamid", user);
+        response.sendRedirect(fullUrl);
+        return null;
     }
 
-    @RequestMapping(value = "/logout")
-    public ModelAndView loggingout(HttpServletRequest request, HttpServletResponse response)  throws IOException {
-        request.getSession().removeAttribute("steamid");
-        return new ModelAndView("redirect:" + so.login("http://localhost:8080"));
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("sjkfnskjdnfkjdsnjkfnkjnf");
+        request.getSession(true).removeAttribute("steamid");
+        response.sendRedirect(getFullUrl(request,"/"));
+        return null;
     }
+
 }
